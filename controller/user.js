@@ -25,7 +25,8 @@ export const createUser = async ( req, res ) => {
 
         return res.status(StatusCodes.CREATED).json({
             message: "Successfully created user",
-            data: user
+            data: user,
+            status: StatusCodes.OK
         })
     } catch(err){
         console.error(err.message)
@@ -38,7 +39,8 @@ export const login = async ( req, res ) => {
         const error = validateInput([ "email", "password"], req.body)
         const user = await User.findOne({ where: {email} })
         if ( !user ) return res.status(StatusCodes.NOT_FOUND).json({
-            message: "User cannot be found"
+            message: "User cannot be found",
+            status: StatusCodes.NOT_FOUND
         })
 
         const validPassword = await bcrypt.compare( password, user.password )
